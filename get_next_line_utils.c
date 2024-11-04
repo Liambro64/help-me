@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:08 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/03 23:06:07 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:23:35 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ char	*get_buffer(int fd)
 		return (0);
 	while (!is_there_a_nl(buff))
 	{
-		i += read(fd, tmp, BUFFER_SIZE);
-		if (tmp[0] == '\0' || i == last)
-			break ;
-		buff = ft_strjoin(buff, tmp);
 		last = i;
+		i += read(fd, tmp, BUFFER_SIZE);
+		if (tmp[0] == '\0' || i <= last)
+			break ;
+		buff = freenjoin(buff, tmp);
 	}
 	free(tmp);
 	buff[i] = 0;
@@ -62,23 +62,14 @@ char	*get_line_j(size_t j, char *buff)
 	starting = j;
 	i = 0;
 	k = 0;
-	//printf("GLJ: %s, %lu, %i\n", buff, j, (long)j>-1l);
 	while ((long)j > -1l)
 	{
 		k = i;
-		//printf("%i, %lu", i, j);
 		while (buff[i++] != '\n')
-			if (buff[i] == '\0')
-			{
-				//printf("%c ", buff[i]);
-				if (j == 0 || j == starting)
-					return (make_new_string(buff, k, i - k));
-				else
-					return (0);
-			}
+			if (buff[i] == '\0' && (j == 0 || j == starting))
+				return (make_new_string(buff, k, i - k));
 		j--;
 	}
-	//printf("%s = %c at %i", buff, buff[i], i);
 	return (make_new_string(buff, k, i - k));
 }
 
@@ -89,7 +80,6 @@ char	*make_new_string(char *str, int st, int len)
 
 	i = 0;
 	newstr = malloc((len + 1) * sizeof(char));
-	//printf("str: %s + %i for %i\n", str, st, len);
 	str += st;
 	while (str[i] && i < len)
 	{

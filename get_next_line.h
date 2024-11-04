@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:48 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/03 04:28:16 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:18:07 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ char	*get_next_line(int fd);
 char	*ft_strjoin(const char *s1, const char *s2);
 int		ft_strlen(char *s);
 int		is_there_a_nl(char *a);
+
+char	*freenjoin(char *s1, char *s2);
 
 #endif
