@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:35:42 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/04 16:32:54 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:36:18 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,24 +85,16 @@ char	*get_next_line(int fd)
 		a = 0;
 	return (a);
 }
-
+/*
 int main()
 {
 	int fd = open("test.txt", O_RDWR);
 	int fd2 = open("test2.txt", O_RDWR);
 	int fd3 = open("test3.txt", O_RDWR);
 	char *a;
-	/*
+	
 	while (a = get_next_line(fd))
-	{printf("%s", a);}*/
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd2));
-	printf("%s", get_next_line(fd3));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd2));
-	printf("%s", get_next_line(fd3));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd2));
-	printf("%s", get_next_line(fd3));
+	{printf("%s", a);}
 	printf("\n");
 }
+*/
