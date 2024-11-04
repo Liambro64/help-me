@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:48 by librooke          #+#    #+#             */
-/*   Updated: 2024/04/02 14:48:40 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/03 04:28:16 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdio.h>
 
-#define BUFF_SIZE 1024
+# define BUFF_SIZE 1024
 
 void	*ft_calloc(size_t count, size_t size);
-int		*get_buffer(int fd);
-int		*use_buffer(int j, char *buff);
+char	*get_buffer(int fd);
+char	*get_line_j(size_t j, char *buff);
 char	*make_new_string(char *str, int st, int len);
 
 char	*get_next_line(int fd);

@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:08 by librooke          #+#    #+#             */
-/*   Updated: 2024/04/02 14:48:32 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/03 23:06:07 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,41 +33,53 @@ char	*get_buffer(int fd)
 	char	*buff;
 	char	*tmp;
 	int		i;
+	int		last;
 
 	tmp = malloc(sizeof(char) * BUFFER_SIZE);
 	buff = malloc(sizeof(char) * BUFFER_SIZE);
 	i = read(fd, buff, BUFFER_SIZE);
 	if (i == -1)
 		return (0);
-	if (!is_there_a_nl(buff))
-		while (!is_there_a_nl(tmp))
-		{
-			i += read(fd, tmp, BUFFER_SIZE);
-			buff = ft_strjoin(buff, tmp);
-		}
-	buff[i - 1] = 0;
+	while (!is_there_a_nl(buff))
+	{
+		i += read(fd, tmp, BUFFER_SIZE);
+		if (tmp[0] == '\0' || i == last)
+			break ;
+		buff = ft_strjoin(buff, tmp);
+		last = i;
+	}
+	free(tmp);
+	buff[i] = 0;
 	return (buff);
 }
 
-int	*use_buffer(int j, char *buff)
+char	*get_line_j(size_t j, char *buff)
 {
 	int		i;
 	int		k;
-	int		*ret;
+	size_t	starting;
 
-	ret = malloc(sizeof(int) * 2 + sizeof(char **));
+	starting = j;
 	i = 0;
-	while (j > -1)
+	k = 0;
+	//printf("GLJ: %s, %lu, %i\n", buff, j, (long)j>-1l);
+	while ((long)j > -1l)
 	{
 		k = i;
-		while (buff[i] != '\0' && buff[i] != '\n')
-			i++;
+		//printf("%i, %lu", i, j);
+		while (buff[i++] != '\n')
+			if (buff[i] == '\0')
+			{
+				//printf("%c ", buff[i]);
+				if (j == 0 || j == starting)
+					return (make_new_string(buff, k, i - k));
+				else
+					return (0);
+			}
 		j--;
 	}
-	ret[0] = k;
-	ret[1] = i - k;
-	((char **)ret)[1] = buff;
-	return (ret);
+	//printf("%s = %c at %i", buff, buff[i], i);
+	return (make_new_string(buff, k, i - k));
 }
 
 char	*make_new_string(char *str, int st, int len)
@@ -77,6 +89,7 @@ char	*make_new_string(char *str, int st, int len)
 
 	i = 0;
 	newstr = malloc((len + 1) * sizeof(char));
+	//printf("str: %s + %i for %i\n", str, st, len);
 	str += st;
 	while (str[i] && i < len)
 	{
@@ -92,7 +105,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	char	*newstr;
 	char	*ret;
 
-	newstr = malloc(sizeof(char) * (ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1));
+	newstr = malloc(sizeof(char) * (ft_strlen((char *)s1)
+				+ ft_strlen((char *)s2) + 1));
 	if (!newstr)
 		return (NULL);
 	ret = newstr;
