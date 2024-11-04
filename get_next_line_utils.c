@@ -6,26 +6,17 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:08 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/04 16:23:35 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:28:21 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t count, size_t size)
+char	*freenset(char **a)
 {
-	unsigned char	*ptr;
-	size_t			i;
-
-	i = 0;
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	while (i < count * size)
-	{
-		ptr[i++] = (unsigned char) '\0';
-	}
-	return (ptr);
+	free(*a);
+	*a = 0;
+	return (0);
 }
 
 char	*get_buffer(int fd)
@@ -35,11 +26,14 @@ char	*get_buffer(int fd)
 	int		i;
 	int		last;
 
-	tmp = malloc(sizeof(char) * BUFFER_SIZE);
 	buff = malloc(sizeof(char) * BUFFER_SIZE);
 	i = read(fd, buff, BUFFER_SIZE);
-	if (i == -1)
+	if (i <= 0)
+	{
+		free(buff);
 		return (0);
+	}
+	tmp = malloc(sizeof(char) * BUFFER_SIZE);
 	while (!is_there_a_nl(buff))
 	{
 		last = i;
@@ -53,39 +47,42 @@ char	*get_buffer(int fd)
 	return (buff);
 }
 
-char	*get_line_j(size_t j, char *buff)
+char	*get_line_j(char **buff)
 {
+	char	*a;
+	char	*old;
 	int		i;
 	int		k;
-	size_t	starting;
-
-	starting = j;
+	
+	if (*buff == NULL || **buff == 0)
+		return (0);
 	i = 0;
 	k = 0;
-	while ((long)j > -1l)
-	{
-		k = i;
-		while (buff[i++] != '\n')
-			if (buff[i] == '\0' && (j == 0 || j == starting))
-				return (make_new_string(buff, k, i - k));
-		j--;
-	}
-	return (make_new_string(buff, k, i - k));
+	while ((*buff)[i] != '\n')
+		if ((*buff)[i++] == '\0')
+			break;
+	a = make_new_string(*buff, i + 1, 0);
+	old = *buff;
+	while ((*buff)[i + k++])
+		;
+	*buff = make_new_string(*buff, k, i + 1);
+	free(old);
+	return (a);
 }
 
-char	*make_new_string(char *str, int st, int len)
+char	*make_new_string(char *str, int len, int st)
 {
 	char	*newstr;
 	int		i;
 
+	str += st;
 	i = 0;
 	newstr = malloc((len + 1) * sizeof(char));
-	str += st;
 	while (str[i] && i < len)
 	{
 		newstr[i] = str[i];
 		i++;
-	}
+	}	
 	newstr[i] = '\0';
 	return (newstr);
 }

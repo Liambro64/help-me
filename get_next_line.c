@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:35:42 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/04 17:15:18 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:43:50 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,6 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-size_t	how_many_nl(char *a)
-{
-	int		i;
-	size_t	j;
-
-	if (a == NULL)
-		return (0);
-	j = 0;
-	i = 0;
-	while (a[i] != 0)
-		if (a[i++] == '\n')
-			j++;
-	return (j);
-}
-
 int	is_there_a_nl(char *a)
 {
 	int	i;
@@ -59,29 +44,43 @@ int	is_there_a_nl(char *a)
 
 char	*get_next_line(int fd)
 {
-	static char	*s[2][BUFF_SIZE];
+	static char	*s[BUFF_SIZE];
 	char		*a;
-	char		*b;
 
 	if (fd < 0)
 		return (0);
-	if (s[0][fd] == NULL)
+	if (s[fd] == NULL)
 	{
-		s[0][fd] = get_buffer(fd);
-		s[1][fd] = 0;
+		s[fd] = get_buffer(fd);
 	}
-	else if (how_many_nl(s[0][fd]) <= (size_t)s[1][fd])
-	{
-		a = s[0][fd];
-		b = get_buffer(fd);
-		s[0][fd] = ft_strjoin(s[0][fd], b);
-		free(a);
-		free(b);
-	}
-	if ((size_t)s[1][fd] > how_many_nl(s[0][fd]) || s[0][fd] == NULL)
-		return (0);
-	a = get_line_j((size_t)s[1][fd]++, s[0][fd]);
+	if (s[fd] == NULL || *s[fd] == 0)
+		return (freenset(&s[fd]));
+	a = get_line_j(&s[fd]);
 	if (a != 0 && *a == 0)
-		a = 0;
+		freenset(&a);
 	return (a);
 }
+/*
+int main()
+{
+	int fd = open("test.txt", O_RDWR);
+	//int fd2 = open("test2.txt", O_RDWR);
+	//int fd3 = open("test3.txt", O_RDWR);
+	char *a;
+	while (a = get_next_line(fd))
+	{printf("%i, %s", a == "\n", a); free(a);}
+	a = get_next_line(fd);
+	printf("%s", a);
+	free(a);
+	a = get_next_line(fd);
+	printf("%s", a);
+	free(a);
+	a = get_next_line(fd);
+	printf("%s", a);
+	free(a);
+	a = get_next_line(fd);
+	printf("%s", a);
+	free(a);
+	printf("\n");
+}
+*/

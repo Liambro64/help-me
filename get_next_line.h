@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:48 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/04 13:18:07 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:00:35 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 # define BUFF_SIZE 1024
 
-void	*ft_calloc(size_t count, size_t size);
+char	*freenset(char **a);
 char	*get_buffer(int fd);
-char	*get_line_j(size_t j, char *buff);
-char	*make_new_string(char *str, int st, int len);
+char	*get_line_j(char **buff);
+char	*make_new_string(char *str, int len, int st);
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(const char *s1, const char *s2);
@@ -32,4 +32,8 @@ int		is_there_a_nl(char *a);
 
 char	*freenjoin(char *s1, char *s2);
 
+#endif
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 100
 #endif
