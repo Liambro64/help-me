@@ -6,7 +6,7 @@
 /*   By: librooke <librooke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:35:42 by librooke          #+#    #+#             */
-/*   Updated: 2024/11/04 19:47:39 by librooke         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:48:30 by librooke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,5 @@ int main()
 	char *a;
 	while (a = get_next_line(fd))
 	{printf("%i, %s", a == "\n", a); free(a);}
-	// a = get_next_line(fd);
-	// printf("%s", a);
-	// free(a);
-	// a = get_next_line(fd);
-	// printf("%s", a);
-	// free(a);
-	// a = get_next_line(fd);
-	// printf("%s", a);
-	// free(a);
-	// a = get_next_line(fd);
-	// printf("%s", a);
-	// free(a);
-	// printf("\n");
 }
 */
